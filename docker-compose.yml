@@ -1,0 +1,14 @@
+version: "2.4"
+services:
+  lain:
+    build: .
+    volumes:
+      - $PWD:/tmp/working
+    container_name: "iwata"
+    working_dir: /tmp/working
+    ports:
+      - 8888:8888
+    command: jupyter notebook --ip=0.0.0.0 --allow-root --no-browser
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
