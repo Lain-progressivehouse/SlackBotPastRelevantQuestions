@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
 from typing import List
+
+import yaml
+
 from src.text_preprocess import (Compose, ZenToHan, SpaceRemove, NumberRemove)
 from src.embedding.encoder import Encoder
 from src.embedding.bert_encoder import BertEncoder
@@ -48,7 +51,8 @@ class Recommender(object):
 def make():
     swem_transforms = Compose([ZenToHan(), NumberRemove(), SpaceRemove()])
     bert_transforms = Compose([ZenToHan(), SpaceRemove()])
-    cfg = {"token": "xoxb-1226966586742-1345503090290-LVMhigsSlCpCAhLY36ztpCfL"}
+    with open("./config.yml") as f:
+        cfg = yaml.load(f)
     swem_encoder = SwemEncoder(transforms=swem_transforms, model_path="./data/model/jawiki.word_vectors.300d.bin")
     bert_encoder = BertEncoder(transforms=bert_transforms,
                                model_path="./data/model/training_bert_japanese/0_BERTJapanese/")
